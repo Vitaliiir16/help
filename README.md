@@ -6,8 +6,8 @@
 
 запуск проекту
 
-git clone https://github.com/Vitaliiir16/kr-var-18-rbt-dfs/tree/main
-cd kr-var-18-rbt-dfs
+git clone https://github.com/Vitaliiir16/kr
+cd kr
 npm install
 npm start
 
