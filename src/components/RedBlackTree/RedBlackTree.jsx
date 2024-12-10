@@ -1,4 +1,3 @@
-//імпорти
 import React, { useState,  useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './RedBlackTree.css';
@@ -14,7 +13,7 @@ function RedBlackTree() {
   const handleInsert = () => {
     const intValue = parseInt(value);
     if (isNaN(intValue)) {
-      alert('Будь ласка, введіть коректне числове значення.');
+      alert('введіть числове значення.');
       return;
     }
     const newTree = insertNode(tree, intValue);
@@ -25,7 +24,7 @@ function RedBlackTree() {
   const handleDelete = () => {
     const intValue = parseInt(value);
     if (isNaN(intValue)) {
-      alert('Будь ласка, введіть коректне числове значення.');
+      alert('введіть числове значення.');
       return;
     }
     const newTree = deleteNode(tree, intValue);
@@ -36,7 +35,7 @@ function RedBlackTree() {
   const handleSearch = () => {
     const intValue = parseInt(value);
     if (isNaN(intValue)) {
-      alert('Будь ласка, введіть коректне числове значення.');
+      alert('введіть числове значення.');
       return;
     }
 

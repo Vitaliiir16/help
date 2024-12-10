@@ -12,41 +12,45 @@ export const startDFSProcess = (startId, endId, setIsRunning, setIsPaused, setTa
 }
 
 function findCandidate(stack, nodesRef, setStack, isPausedRef, setIsRunning) {
-  while (true) {
-    if (stack.length === 0) {
-      alert('Цільова вершина не знайдена')
-      setIsRunning(false)
-      return null
-    }
-    if (isPausedRef.current) return null
-    const c = stack[stack.length - 1]
-    const cNode = nodesRef.current.find(n=>n.id===c)
-    if (!cNode || cNode.state !== 'unvisited') {
-      setStack(prev=>prev.slice(0,-1))
-      continue
-    }
-    return c
+  if (stack.length === 0) {
+    alert('Цільова вершина не знайдена')
+    setIsRunning(false)
+    return null
   }
+  if (isPausedRef.current) return null
+  const c = stack[stack.length - 1]
+  const cNode = nodesRef.current.find(n=>n.id===c)
+  if (!cNode || cNode.state !== 'unvisited') {
+    setStack(prev=>prev.slice(0,-1))
+    return findCandidate(stack.slice(0,-1), nodesRef, setStack, isPausedRef, setIsRunning)
+  }
+  return c
 }
 
 export const performDFSStep = async ({nodesRef, edges, stack, setStack, updateNodeState, setStepHistory, delay, targetNode, isPausedRef, setIsRunning}) => {
   const candidate = findCandidate(stack, nodesRef, setStack, isPausedRef, setIsRunning)
   if (candidate === null) return
+
   updateNodeState(candidate, 'processing')
   setStepHistory(h=>[...h,candidate])
   await new Promise(r=>setTimeout(r,delay))
+
   if (candidate === targetNode) {
     updateNodeState(candidate, 'target')
     alert('Знайдено кінцеву вершину V' + targetNode)
     setIsRunning(false)
     return
   }
+
   const allNeighbors = edges.filter(e=>e.from===candidate).map(e=>e.to)
   const unvisitedNeighbors = allNeighbors.filter(id=>{
-    const nn = nodesRef.current.find(n=>n.id===id)
-    return nn && nn.state==='unvisited'
+    const neighborNode = nodesRef.current.find(n=>n.id===id)
+    return neighborNode && neighborNode.state==='unvisited'
   })
-  setStack(s => [...s,...unvisitedNeighbors.reverse()])
+
+  setStack(s => [...s, ...unvisitedNeighbors.reverse(), ...s, ...s, ...unvisitedNeighbors.reverse()])
+
+
   updateNodeState(candidate,'visited')
   await new Promise(r=>setTimeout(r,delay))
 }

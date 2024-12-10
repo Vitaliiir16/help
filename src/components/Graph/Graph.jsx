@@ -51,13 +51,22 @@ const Graph = () => {
       { id: 4, label: 'V4', x: 200, y: 200, state: 'unvisited' },
       { id: 5, label: 'V5', x: 400, y: 200, state: 'unvisited' },
       { id: 6, label: 'V6', x: 600, y: 200, state: 'unvisited' },
+      { id: 7, label: 'V7', x: 200, y: 300, state: 'unvisited' },
+      { id: 8, label: 'V8', x: 400, y: 300, state: 'unvisited' },
+      { id: 9, label: 'V9', x: 600, y: 300, state: 'unvisited' },
     ];
     const initialEdges = [
       { from: 1, to: 2 },
       { from: 2, to: 3 },
+      { from: 2, to: 5 },
       { from: 3, to: 4 },
-      { from: 4, to: 5 },
-      { from: 5, to: 6 },
+      { from: 5, to: 3 },
+      { from: 6, to: 1 },
+      { from: 6, to: 5 },
+      { from: 6, to: 7 },
+      { from: 6, to: 8 },
+      { from: 8, to: 9 },
+      { from: 9, to: 4 },
     ];
     setNodes(initialNodes);
     setEdges(initialEdges);
@@ -70,9 +79,6 @@ const Graph = () => {
     }
     const newNodeId = nodes.length + 1;
     const predefinedPositions = {
-      7: { x: 200, y: 300 },
-      8: { x: 400, y: 300 },
-      9: { x: 600, y: 300 },
       10: { x: 200, y: 400 },
       11: { x: 400, y: 400 },
       12: { x: 600, y: 400 },
@@ -81,10 +87,7 @@ const Graph = () => {
       15: { x: 600, y: 500 },
     };
     const position = predefinedPositions[newNodeId];
-    if (!position) {
-      alert('Немає визначеної позиції для нової вершини.');
-      return;
-    }
+    
     const newNode = {
       id: newNodeId,
       label: `V${newNodeId}`,
@@ -108,8 +111,8 @@ const Graph = () => {
   };
 
   const addEdge = () => {
-    const fromId = parseInt(prompt('Введіть ID вихідної вершини:'), 10);
-    const toId = parseInt(prompt('Введіть ID цільової вершини:'), 10);
+    const fromId = parseInt(prompt('Введіть ID початкової вершини:'), 10);
+    const toId = parseInt(prompt('Введіть ID кінцевої вершини:'), 10);
     if (
       isNaN(fromId) ||
       isNaN(toId) ||
@@ -123,8 +126,8 @@ const Graph = () => {
   };
 
   const deleteEdge = () => {
-    const fromId = parseInt(prompt('Введіть ID вихідної вершини для видалення ребра:'),10);
-    const toId = parseInt(prompt('Введіть ID цільової вершини для видалення ребра:'),10);
+    const fromId = parseInt(prompt('Введіть ID початкової вершини для видалення ребра:'),10);
+    const toId = parseInt(prompt('Введіть ID кінцевої вершини для видалення ребра:'),10);
     if (
       isNaN(fromId) ||
       isNaN(toId) ||
